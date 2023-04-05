@@ -2,29 +2,56 @@
   <app-header></app-header>
 
   <main>
-    <app-side-nav></app-side-nav>
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <app-side-nav></app-side-nav>
+      </div>
 
-    <div class="displey-area">
-      <table class="table table-dark table-hover">
-          <thead>
-            <tr>
-              <th *ngFor="let header of header">{{ header }}</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let operador of operadores">
-              <td>{{ operador.nome }}</td>
-              <td>{{ operador.cpf }}</td>
-              <td>{{ operador.email }}</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-primary" (click)="editOperador(operador)">
-                  Editar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-      </table>
+      <div class="col-12 col-md-9">
+        <div class="container mt-4">
+          <h2>Cadastro de Operadores</h2>
+
+          <form>
+            <div class="form-group">
+              <label for="nome">Nome:</label>
+              <input type="text" class="form-control" id="nome" [(ngModel)]="operadorSelecionado && operadorSelecionado.nome" name="nome" required>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail:</label>
+              <input type="email" class="form-control" id="email" [(ngModel)]="operadorSelecionado && operadorSelecionado.email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="Cpf">Cpf:</label>
+              <input type="tel" class="form-control" id="Cpf" [(ngModel)]="operadorSelecionado && operadorSelecionado.cpf" name="Cpf" required>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+            <button type="button" class="btn btn-secondary" (click)="operadorSelecionado">Cancelar</button>
+          </form>
+
+          <table class="table table-hover mt-4">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Cpf</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let operador of operadores" (click)="operadorSelecionado = operador">
+                <td>{{ operador.nome }}</td>
+                <td>{{ operador.email }}</td>
+                <td>{{ operador.cpf }}</td>
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm"
+                    (click)="operadorSelecionado = operador">Editar</button>
+                  <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 </div>

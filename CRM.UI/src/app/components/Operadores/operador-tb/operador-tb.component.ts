@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OperadorService } from 'src/app/services/operador.service';
-import { OperadorInt } from 'src/app/interface/operador.interface';
-import { Operador } from 'src/app/models/operador';
+import { Operador } from 'src/app/interface/operador.interface';
 
 @Component({
   selector: 'app-operador-tb',
@@ -9,7 +8,7 @@ import { Operador } from 'src/app/models/operador';
   styleUrls: ['./operador-tb.component.css']
 })
 export class OperadorTbComponent implements OnInit {
-  operadores: OperadorInt[] = [];
+  operadores: Operador[] = [];
   headers: string[] = [];
 
   constructor(private operadorService: OperadorService) { }

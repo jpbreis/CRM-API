@@ -33,4 +33,14 @@ table {
       left: 0;
     }
   }
+
+  .btn-acoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btn-acoes button {
+    margin-right: 5px;
+  }
   

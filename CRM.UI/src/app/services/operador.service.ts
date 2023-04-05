@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { OperadorInt } from '../interface/operador.interface';
+import { Operador } from '../interface/operador.interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environments';
 
@@ -11,16 +11,16 @@ export class OperadorService {
     private url = "Operador"
     constructor(private http: HttpClient) { }
 
-    public getOperadores() : Observable<OperadorInt[]> {
-        return this.http.get<OperadorInt[]>(`${environment.apiUrl}/${this.url}`);
+    public getOperadores() : Observable<Operador[]> {
+        return this.http.get<Operador[]>(`${environment.apiUrl}/${this.url}`);
     }
 
-    public updateOperador(operador: OperadorInt) : Observable<OperadorInt[]> {
-        return this.http.put<OperadorInt[]>(`${environment.apiUrl}/${this.url}`, operador);
+    public updateOperador(operador: Operador) : Observable<Operador[]> {
+        return this.http.put<Operador[]>(`${environment.apiUrl}/${this.url}`, operador);
     }
 
-    public createOperador(operador: OperadorInt) : Observable<OperadorInt[]> {
-        return this.http.post<OperadorInt[]>(`${environment.apiUrl}/${this.url}`, operador);
+    public createOperador(operador: Operador) : Observable<Operador[]> {
+        return this.http.post<Operador[]>(`${environment.apiUrl}/${this.url}`, operador);
     }
 }
 

@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { OperadorService } from './services/operador.service';
 import { MatDialog } from '@angular/material/dialog';
-import { OperadorInt } from './interface/operador.interface';
+import { Operador } from './interface/operador.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,9 @@ import { OperadorInt } from './interface/operador.interface';
 })
 export class AppComponent {
   title = 'CRM.UI';
-  operadores: OperadorInt[] = [];
+  operadores: Operador[] = [];
   header: string[] = [];
-  operadorSelecionado?: OperadorInt;
+  operadorSelecionado?: Operador;
 
   constructor(
     private operadorService: OperadorService,
@@ -21,7 +21,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     const columnsToShow = ["nome", "cpf", "email"];
-    this.operadorService.getOperadores().subscribe((operadores: OperadorInt[]) => {
+    this.operadorService.getOperadores().subscribe((operadores: Operador[]) => {
       this.operadores = operadores;
       this.header = Object.keys(operadores[0]).filter((header) => {
         return columnsToShow.includes(header);
@@ -30,10 +30,10 @@ export class AppComponent {
   }
 
   initNewOperador() {
-    this.operadorSelecionado = {} as OperadorInt;
+    this.operadorSelecionado = {} as Operador;
   }
 
-  editOperador(operador: OperadorInt) {
+  editOperador(operador: Operador) {
     this.operadorSelecionado = operador;
   }
 }

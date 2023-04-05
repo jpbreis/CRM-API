@@ -1,4 +1,4 @@
-export interface OperadorInt {
+export interface Operador {
     idOperador?: number;
     nome: string;
     dataNascimento: string;

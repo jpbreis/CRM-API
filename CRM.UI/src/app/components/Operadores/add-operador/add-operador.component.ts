@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Operador } from '../../../models/operador';
+import { Operador } from '../../../interface/operador.interface';
 import { OperadorService } from '../../../services/operador.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
