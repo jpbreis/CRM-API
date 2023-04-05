@@ -1,0 +1,8 @@
+<div class="side-nav-content">
+    <ul class="nav-list">
+      <li class="nav-list-item" *ngFor="let item of List" [ngClass]="{ active: item.name === 'Home' }">
+        <i class="fa-fw {{ item.icon }}"></i>
+        <a href="#">{{item.name}}</a>
+      </li>
+    </ul>
+  </div>

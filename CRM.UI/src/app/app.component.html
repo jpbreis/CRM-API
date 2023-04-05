@@ -1,0 +1,30 @@
+<div class="container-fluid g-0">
+  <app-header></app-header>
+
+  <main>
+    <app-side-nav></app-side-nav>
+
+    <div class="displey-area">
+      <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th *ngFor="let header of header">{{ header }}</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let operador of operadores">
+              <td>{{ operador.nome }}</td>
+              <td>{{ operador.cpf }}</td>
+              <td>{{ operador.email }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-primary" (click)="editOperador(operador)">
+                  Editar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </main>
+</div>

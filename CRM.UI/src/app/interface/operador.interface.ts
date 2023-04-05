@@ -1,0 +1,29 @@
+export interface OperadorInt {
+    idOperador?: number;
+    nome: string;
+    dataNascimento: string;
+    rg: string;
+    cpf: string;
+    cep: string;
+    logradouro: string;
+    numero: string;
+    bairro: string;
+    complemento: string;
+    pais: string;
+    estado: string;
+    cidade: string;
+    celular: string;
+    telefone: string;
+    email: string;
+    estadoCivil: string;
+    dependentes?: number;
+    cargo?: number;
+    departamento?: number;
+    supervisor?: number;
+    dataAdmissao: string;
+    dataDemissao: string;
+    tipoContrato?: number;
+    regimeTrabalho?: number;
+    jornadaTrabalho?: number;
+    salario?: number;
+}
