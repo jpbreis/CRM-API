@@ -4,6 +4,7 @@ using CRMAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using System.Linq;
 using System.Security.Principal;
 
@@ -26,7 +27,7 @@ namespace CRMAPI.Controllers
             [FromQuery] int[]? ids,
             [FromQuery] string? nome,
             [FromQuery] string? descricao,
-            //[FromQuery] valorminimo,
+            [FromQuery] decimal[]? valorminimo,
             [FromQuery] int[]? idcriador,
             [FromQuery] bool? ativo,
             [FromQuery] DateTime? datacriacao,
@@ -45,7 +46,7 @@ namespace CRMAPI.Controllers
                     ids != null ||
                     nome != null ||
                     descricao != null ||
-                    // != null ||
+                    valorminimo != null ||
                     idcriador != null ||
                     ativo != null ||
                     datacriacao != null ||
@@ -136,6 +137,15 @@ namespace CRMAPI.Controllers
                 }
                 #endregion
 
+                #region Decimal
+                if (valorminimo != null && valorminimo.Length > 0)
+                {
+                    var decimalFilter = EndPointDecimalFilter.CreateDoublePropertyFilter<ProdutoModel>("ValorMinimo", valorminimo);
+                    if (decimalFilter != null)
+                        query = query.Where(decimalFilter).AsQueryable();
+                }
+                #endregion
+
                 #region bool
                 if (ativo != null)
                 {
@@ -159,7 +169,7 @@ namespace CRMAPI.Controllers
         public async Task<ActionResult<List<ProdutoModel>>> CreateProduto(
             [FromQuery] string nome = "",
             [FromQuery] string descricao = "",
-            [FromQuery] double? valorminimo = 0,
+            [FromQuery] decimal? valorminimo = 0,
             [FromQuery] int idcriador = 0,
             [FromQuery] bool ativo = true,
             [FromQuery] DateTime datacriacao = default,
@@ -211,7 +221,7 @@ namespace CRMAPI.Controllers
         public async Task<ActionResult<ProdutoModel>> UpdateProduto(ProdutoModel produtoModel,
             [FromQuery] string? nome,
             [FromQuery] string? descricao,
-            [FromQuery] double? valorminimo,
+            [FromQuery] decimal? valorminimo,
             [FromQuery] bool? ativo,
             [FromQuery] DateTime? dataalteracao,
             [FromQuery] DateTime? datadesativado)

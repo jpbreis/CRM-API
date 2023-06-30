@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 
@@ -32,8 +33,8 @@ namespace CRMAPI.Controllers
             [FromQuery] int[]? idaprovador,
             [FromQuery] int[]? idcriador,
             [FromQuery] int[]? statusvenda,
-            //[FromQuery] double? valorvenda,
-            //[FromQuery] double? entradavenda,
+            [FromQuery] decimal[]? valorvenda,
+            [FromQuery] decimal[]? entradavenda,
             [FromQuery] string? cep,
             [FromQuery] string? logradouro,
             [FromQuery] string? numeroendereco,
@@ -61,8 +62,8 @@ namespace CRMAPI.Controllers
                     idaprovador != null ||
                     idcriador != null ||
                     statusvenda != null ||
-                    //valorvenda != null ||
-                    //entradavenda != null ||
+                    valorvenda != null ||
+                    entradavenda != null ||
                     cep != null ||
                     logradouro != null ||
                     numeroendereco != null ||
@@ -190,6 +191,22 @@ namespace CRMAPI.Controllers
                 }
                 #endregion
 
+                #region Double
+                if (valorvenda != null && valorvenda.Length > 0)
+                {
+                    var decimalFilter = EndPointDecimalFilter.CreateDoublePropertyFilter<VendaModel>("ValorVenda", valorvenda);
+                    if (decimalFilter != null)
+                        query = query.Where(decimalFilter).AsQueryable();
+                }
+
+                if (entradavenda != null && entradavenda.Length > 0)
+                {
+                    var decimalFilter = EndPointDecimalFilter.CreateDoublePropertyFilter<VendaModel>("EntradaVenda", entradavenda);
+                    if (decimalFilter != null)
+                        query = query.Where(decimalFilter).AsQueryable();
+                }
+                #endregion
+
                 #region Ids
                 //IdCriador
                 if (idcriador != null && idcriador.Length > 0)
@@ -267,8 +284,8 @@ namespace CRMAPI.Controllers
             [FromQuery] int? idaprovador = 0,
             [FromQuery] int idcriador = 0,
             [FromQuery] int? statusvenda = 0,
-            [FromQuery] double? valorvenda = 0,
-            [FromQuery] double? entradavenda = 0,
+            [FromQuery] decimal? valorvenda = 0,
+            [FromQuery] decimal? entradavenda = 0,
             [FromQuery] string cep = "",
             [FromQuery] string? logradouro = "",
             [FromQuery] string? numeroendereco = "",
@@ -349,8 +366,8 @@ namespace CRMAPI.Controllers
             [FromQuery] int? idformapagamento,
             [FromQuery] int? idaprovador,
             [FromQuery] int? statusvenda,
-            [FromQuery] double? valorvenda,
-            [FromQuery] double? entradavenda,
+            [FromQuery] decimal? valorvenda,
+            [FromQuery] decimal? entradavenda,
             [FromQuery] string? cep,
             [FromQuery] string? logradouro,
             [FromQuery] string? numeroendereco,

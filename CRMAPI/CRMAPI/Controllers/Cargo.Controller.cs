@@ -24,7 +24,7 @@ namespace CRMAPI.Controllers
         public async Task<ActionResult<List<CargoModel>>> GetCargo(
             [FromQuery] int[]? ids,
             [FromQuery] string? nome,
-            //[FromQuery] double? salario,
+            [FromQuery] decimal[]? salario,
             [FromQuery] bool? ativo,
             [FromQuery] int[]? idscriacao,
             [FromQuery] DateTime? datacriacao,
@@ -39,8 +39,8 @@ namespace CRMAPI.Controllers
                 #region Filter
                 var hasFilter =
                     ids != null ||
-                    !string.IsNullOrEmpty(nome) ||
-                    //double
+                    nome != null||
+                    salario != null ||
                     datacriacao != null ||
                     datadesativado != null ||
                     ativo != null ||
@@ -104,8 +104,13 @@ namespace CRMAPI.Controllers
                 }
                 #endregion
 
-                #region Double
-                //A fazer
+                #region Decimal
+                if (salario != null && salario.Length > 0)
+                {
+                    var decimalFilter = EndPointDecimalFilter.CreateDoublePropertyFilter<CargoModel>("SalarioBase", salario);
+                    if (decimalFilter != null)
+                        query = query.Where(decimalFilter).AsQueryable();
+                }
                 #endregion
 
                 #region Ids
@@ -139,7 +144,7 @@ namespace CRMAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<List<CargoModel>>> CreateGargo(
             [FromQuery] string nome = "",
-            //[FromQuery] double salario = 0)
+            [FromQuery] decimal? salario = 0,
             [FromQuery] DateTime datacriacao = default,
             [FromQuery] bool ativo = true,
             [FromQuery] int idcriador = 0)
@@ -151,7 +156,7 @@ namespace CRMAPI.Controllers
                     var newCargo = new CargoModel
                     {
                         NomeCargo = nome,
-                        //SalarioBase = 
+                        SalarioBase = salario != 0 ? null : salario,
                         DataCriacao = datacriacao,
                         Ativo = ativo,
                         IdCriador = idcriador
@@ -180,7 +185,7 @@ namespace CRMAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<CargoModel>> UpdateCargo(CargoModel cargoM,
             [FromQuery] string? nome,
-            //[FromQuery] double? salario,
+            [FromQuery] decimal? salario,
             [FromQuery] bool? ativo,
             [FromQuery] int? idscriacao,
             [FromQuery] DateTime? datacriacao,
@@ -194,7 +199,7 @@ namespace CRMAPI.Controllers
                 else
                 {
                     dbCargo.NomeCargo = nome ?? dbCargo.NomeCargo;
-                    //dbCargo.SalarioBase
+                    dbCargo.SalarioBase = salario ?? dbCargo.SalarioBase;
                     dbCargo.DataCriacao = datacriacao ?? dbCargo.DataCriacao;
                     dbCargo.DataDesativado = datadesativado ?? dbCargo.DataDesativado;
                     dbCargo.Ativo = ativo ?? dbCargo.Ativo;

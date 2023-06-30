@@ -7,7 +7,7 @@ namespace CRMAPI.Models
         [Key]
         public int IdCargo { get; set; }
         public string NomeCargo { get; set; }
-        public float? SalarioBase { get; set; }
+        public decimal? SalarioBase { get; set; }
         public DateTime DataCriacao { get; set; }
         public DateTime? DataDesativado { get; set; }
         public bool? Ativo { get; set; }

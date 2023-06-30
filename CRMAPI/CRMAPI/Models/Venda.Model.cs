@@ -21,8 +21,8 @@ namespace CRMAPI.Models
         public int IdVenda { get; set; }
         public int? StatusVenda { get; set; }
         public int IdCriador { get; set; }
-        public double? ValorVenda { get; set; }
-        public double? EntradaVenda { get; set; }
+        public decimal? ValorVenda { get; set; }
+        public decimal? EntradaVenda { get; set; }
         public DateTime DataAssinatura { get; set; }
         public DateTime DataCriacao { get; set; }
     }

@@ -9,7 +9,7 @@ namespace CRMAPI.Models
         public int IdProduto { get; set; }
         public string SiglaAdicionalProduto { get; set; }
         public string DescricaoAdicionalProduto { get; set; }
-        public double? ValorAdicionalProduto { get; set; }
+        public decimal? ValorAdicionalProduto { get; set; }
         public DateTime DataCriacao { get; set; }
         public DateTime? DataDesativado { get; set; }
         public bool? Ativo { get; set; }

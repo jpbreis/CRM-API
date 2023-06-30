@@ -24,11 +24,12 @@ namespace CRMAPI.Controllers
         #region HttpGet
         [HttpGet]
         public async Task<ActionResult<List<AdicionaisProdutoModel>>> GetAdicionaisProduto(
+            [FromQuery] string[]? Coluna,
             [FromQuery] int[]? ids,
             [FromQuery] int[]? idproduto,
             [FromQuery] string? sigla,
             [FromQuery] string? descricao,
-            //[FromQuery] valor,
+            [FromQuery] decimal[]? valor,
             [FromQuery] bool? ativo,
             [FromQuery] int[]? idcriador,
             [FromQuery] DateTime? datacriacao,
@@ -40,13 +41,25 @@ namespace CRMAPI.Controllers
             {
                 IQueryable<AdicionaisProdutoModel> query = _dbcontext.bdAdicionaisProduto;
 
+                //if (Coluna.Contains("Teste"))
+                //{
+                //    var result = query.ToListAsync();
+                //    var teste = result.Select(adicional => new
+                //    {
+                //        IdAdicionalProduto = adicional.IdAdicionalProduto,
+                //        SiglaAdicionalProduto = adicional.SiglaAdicionalProduto
+                //    }).ToList();
+
+                //    return Ok(await teste);
+                //}
+
                 #region Filter
                 var hasFilter =
                     ids != null ||
                     idproduto != null ||
                     !string.IsNullOrEmpty(sigla) ||
                     !string.IsNullOrEmpty(descricao) ||
-                    //valor != null ||
+                    valor != null ||
                     datacriacao != null ||
                     datadesativado != null ||
                     datacriacaoBetween != null ||
@@ -135,6 +148,15 @@ namespace CRMAPI.Controllers
                 }
                 #endregion
 
+                #region Decimal
+                if (valor != null && valor.Length > 0)
+                {
+                    var decimalFilter = EndPointDecimalFilter.CreateDoublePropertyFilter<AdicionaisProdutoModel>("ValorAdicionalProduto", valor);
+                    if (decimalFilter != null)
+                        query = query.Where(decimalFilter).AsQueryable();
+                }
+                #endregion
+
                 #region bool
                 if (ativo != null)
                 {
@@ -159,7 +181,7 @@ namespace CRMAPI.Controllers
             [FromQuery] int idproduto = 0,
             [FromQuery] string sigla = "",
             [FromQuery] string descricao = "",
-            [FromQuery] double? valor = 0,
+            [FromQuery] decimal? valor = 0,
             [FromQuery] bool ativo = true,
             [FromQuery] int idcriador = 0,
             [FromQuery] DateTime datacriacao = default, 
@@ -211,7 +233,7 @@ namespace CRMAPI.Controllers
             [FromQuery] int? idproduto,
             [FromQuery] string? sigla,
             [FromQuery] string? descricao,
-            [FromQuery] double? valor,
+            [FromQuery] decimal? valor,
             [FromQuery] bool? ativo,
             [FromQuery] DateTime? datadesativado)
         {

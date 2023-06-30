@@ -34,7 +34,7 @@ namespace CRMAPI.Controllers
             [FromQuery] string? celular,
             [FromQuery] string? telefone,
             [FromQuery] string? genero,
-            //[FromQuery] double? salario,
+            [FromQuery] decimal[]? salario,
             [FromQuery] string? senha,
             [FromQuery] int[]? idsempresa,
             [FromQuery] int[]? idsgrupoempresa,
@@ -60,14 +60,14 @@ namespace CRMAPI.Controllers
                 #region Filter
                 bool hasFilter =
                     ids != null ||
-                    !string.IsNullOrEmpty(nome) ||
-                    !string.IsNullOrEmpty(cpf) ||
-                    !string.IsNullOrEmpty(email) ||
-                    !string.IsNullOrEmpty(celular) ||
-                    !string.IsNullOrEmpty(telefone) ||
-                    !string.IsNullOrEmpty(genero) ||
-                    //salario != null ||
-                    !string.IsNullOrEmpty(senha) ||
+                    nome != null ||
+                    cpf != null ||
+                    email != null ||
+                    celular != null ||
+                    telefone != null ||
+                    genero != null ||
+                    salario != null ||
+                    senha != null ||
                     idsempresa != null ||
                     idsgrupoempresa != null ||
                     idscargo != null ||
@@ -188,11 +188,16 @@ namespace CRMAPI.Controllers
                                 query = query.Where(stringFilter).AsQueryable();
                         }
 
-                        #endregion
+                #endregion
 
-                #region Double
-                        //Salario
-                        #endregion
+                #region Decimal
+                if (salario != null && salario.Length > 0)
+                {
+                    var decimalFilter = EndPointDecimalFilter.CreateDoublePropertyFilter<OperadorModel>("Salario", salario);
+                    if (decimalFilter != null)
+                        query = query.Where(decimalFilter).AsQueryable();
+                }
+                #endregion
 
                 #region Ids
                 if (idsempresa != null && idsempresa.Length > 0)
@@ -282,13 +287,13 @@ namespace CRMAPI.Controllers
         public async Task<ActionResult<List<OperadorModel>>> CreateOperador(OperadorModel operador,
             [FromQuery] string nome = "",
             [FromQuery] string cpf = "",
-            [FromQuery] string email = "",
+            [FromQuery] string? email = "",
             [FromQuery] string celular = "",
             [FromQuery] string? telefone = "",
             [FromQuery] string genero = "",
-            [FromQuery] double salario = 0,
+            [FromQuery] decimal salario = 0,
             [FromQuery] string senha = "",
-            [FromQuery] int? idsempresa = 0,
+            [FromQuery] int idsempresa = 0,
             [FromQuery] int? idsgrupoempresa = 0,
             [FromQuery] int idscargo = 0,
             [FromQuery] int idsdepartamento = 0,
@@ -336,7 +341,7 @@ namespace CRMAPI.Controllers
                         Genero = genero,
                         Salario = salario,
                         Senha = senha,
-                        IdEmpresa = idsempresa == 0 ? null : idsempresa,
+                        IdEmpresa = idsempresa,
                         IdGrupoEmpresa = idsgrupoempresa == 0 ? null : idsgrupoempresa,
                         IdCargo = idscargo,
                         IdDepartamento = idsdepartamento,
@@ -388,7 +393,7 @@ namespace CRMAPI.Controllers
             [FromQuery] string? celular,
             [FromQuery] string? telefone,
             [FromQuery] string? genero,
-            [FromQuery] double? salario,
+            [FromQuery] decimal? salario,
             [FromQuery] string? senha,
             [FromQuery] int? idempresa,
             [FromQuery] int? idgrupoempresa,
